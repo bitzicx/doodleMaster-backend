@@ -237,7 +237,7 @@ func readPump(player *game.Player, room *game.Room) {
 
 			log.Printf("player %s guessed: %s", player.ID, text)
 
-			if room.State.Status == "RUNNING" {
+			if room.State.Status == game.StatusStarted {
 				select {
 				case room.Guess <- game.GuessEvent{PlayerID: player.ID, Text: text}:
 				default:

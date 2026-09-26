@@ -5,18 +5,15 @@ import (
 	"log"
 	"math/rand"
 	"sync"
-	"time"
 )
 
 func GenerateRoomId() string {
 	const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
-	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
-
+	
 	result := make([]byte, 5)
 
 	for i := range result {
-		result[i] = charset[seededRand.Intn(len(charset))]
+		result[i] = charset[rand.Intn(len(charset))]
 	}
 
 	return string(result)

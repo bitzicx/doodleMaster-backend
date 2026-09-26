@@ -138,7 +138,7 @@ func (r *Room) runTurn(drawer *Player) {
 
                 b, _ := json.Marshal(event)
                 r.Broadcast <- BroadcastData{
-                    EventType: "CORRECT_GUESS",
+                    EventType: "CHAT",
                     SenderID:  "SERVER",
                     Payload:   b,
                 } 
