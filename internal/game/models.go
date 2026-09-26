@@ -2,21 +2,17 @@ package game
 
 import "github.com/gorilla/websocket"
 
-
-// draw point representation 
-type DrawPoint struct{
+// draw point representation
+type DrawPoint struct {
 	X float32 `json:"x"`
 	Y float32 `json:"y"`
 }
 
-
-type BroadcastData struct{
+type BroadcastData struct {
 	EventType string
-	SenderID string
-	Payload []byte
-
+	SenderID  string
+	Payload   []byte
 }
-
 
 // player represents a user currently connected to the server
 type Player struct {
@@ -27,15 +23,12 @@ type Player struct {
 	Send     chan []byte     `json:"-"`
 }
 
-
 // Guess represents a chat attempt at the word
 type Guess struct {
 	PlayersId string `json:"player_id"`
 	GuessText string `json:"guesstext"`
-	GuessedAt int64 `json:"guessed_at"`
+	GuessedAt int64  `json:"guessed_at"`
 }
-
-
 
 type GameType string
 
@@ -44,70 +37,67 @@ const (
 	GameTypeSpeedAI GameType = "SPEED_AI_SHOWDOWN"
 )
 
-
 type RoomStatus string
 
 const (
-    StatusWaiting  RoomStatus = "waiting"
-    StatusStarted  RoomStatus = "started"
-    StatusFinished RoomStatus = "finished"
+	StatusWaiting  RoomStatus = "waiting"
+	StatusStarted  RoomStatus = "started"
+	StatusFinished RoomStatus = "finished"
 )
 
 // BaseRoom is the in-memory arena
 type BaseRoom struct {
-    Host        string             `json:"host"`
-    ID          string             `json:"id"`
-    Status      RoomStatus         `json:"status"`
-    Type        GameType           `json:"type"`
-    Players     map[string]*Player `json:"players"`
-    CurrentTurn string             `json:"current_turn"`
-    CurrentWord string             `json:"current_word"` 
-    WordMask    string             `json:"word_mask"`    // "_ _ _ _" sent to guessers
-    Round       int                `json:"round"`
-    StartedAt   int64              `json:"started_at"`
-    GuessedBy   map[string]bool    `json:"guessed_by"`  
-    Scores      map[string]int     `json:"scores"`      
-    TurnOrder   []string           `json:"turn_order"`  
+	Host        string             `json:"host"`
+	ID          string             `json:"id"`
+	Status      RoomStatus         `json:"status"`
+	Type        GameType           `json:"type"`
+	Players     map[string]*Player `json:"players"`
+	CurrentTurn string             `json:"current_turn"`
+	CurrentWord string             `json:"current_word"`
+	WordMask    string             `json:"word_mask"` // "_ _ _ _" sent to guessers
+	Round       int                `json:"round"`
+	StartedAt   int64              `json:"started_at"`
+	GuessedBy   map[string]bool    `json:"guessed_by"`
+	Scores      map[string]int     `json:"scores"`
+	TurnOrder   []string           `json:"turn_order"`
 }
 
-
-type EventType string 
+type EventType string
 
 const (
-    EventDraw      EventType = "DRAW"
-    EventChat      EventType = "CHAT"
-    EventState     EventType = "STATE_UPDATE"
-    EventTurnStart EventType = "TURN_START"
-    EventTurnEnd   EventType = "TURN_END"
-    EventGameOver  EventType = "GAME_OVER"
-    EventGuess     EventType = "GUESS"
+	EventDraw         EventType = "draw"
+	EventChat         EventType = "chat"
+	EventState        EventType = "state_update"
+	EventTurnStart    EventType = "turn_start"
+	EventTurnEnd      EventType = "turn_end"
+	EventGameOver     EventType = "game_over"
+	EventGuess        EventType = "guess"
+	EventCorrectGuess EventType = "correct_guess"
 )
+
 type GameEvent struct {
-	Type EventType `json:"type"`
+	Type     EventType `json:"type"`
 	SenderID string    `json:"sender_id"`
-	Payload any `json:"payload"`
+	Payload  any       `json:"payload"`
 }
 
-
 type TurnStartPayload struct {
-    DrawerID   string `json:"drawer_id"`
-    DrawerName string `json:"drawer_name"`
-    Word       string `json:"word"`       // only set for the drawer
-    WordMask   string `json:"word_mask"`  // always set
-    Duration   int    `json:"duration"`   // seconds
+	DrawerID   string `json:"drawer_id"`
+	DrawerName string `json:"drawer_name"`
+	Word       string `json:"word"`      // only set for the drawer
+	WordMask   string `json:"word_mask"` // always set
+	Duration   int    `json:"duration"`  // seconds
 }
 
 type GuessPayload struct {
-    Text string `json:"text"`
+	Text string `json:"text"`
 }
 
 type TurnEndPayload struct {
-    Word      string         `json:"word"`
-    Scores    map[string]int `json:"scores"`
-    GuessedBy map[string]bool `json:"guessed_by"`
+	Word      string          `json:"word"`
+	Scores    map[string]int  `json:"scores"`
+	GuessedBy map[string]bool `json:"guessed_by"`
 }
-
-
 
 type Doodle struct {
 	Name string

@@ -222,7 +222,7 @@ func readPump(player *game.Player, room *game.Room) {
 			continue
 		}
 
-		if event.Type == "CHAT"{
+		if event.Type == game.EventChat{
 			payloadMap, ok := event.Payload.(map[string]interface{})
 			if !ok {
 				log.Println("CHAT payload is not an object")

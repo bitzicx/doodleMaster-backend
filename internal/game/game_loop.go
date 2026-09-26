@@ -130,7 +130,7 @@ func (r *Room) runTurn(drawer *Player) {
             }else{
 
                 var event GameEvent
-                event.Type = "CHAT"
+                event.Type = EventChat
                 event.SenderID = guess.PlayerID
                 event.Payload = map[string]string{
                         "message":   fmt.Sprintf("%s", guess.Text),
@@ -138,7 +138,7 @@ func (r *Room) runTurn(drawer *Player) {
 
                 b, _ := json.Marshal(event)
                 r.Broadcast <- BroadcastData{
-                    EventType: "CHAT",
+                    EventType: string(EventChat),
                     SenderID:  "SERVER",
                     Payload:   b,
                 } 
@@ -154,7 +154,7 @@ func (r *Room) broadcastCorrectGuess(playerID string) {
     }
 
     var event GameEvent
-    event.Type = "CHAT"
+    event.Type = EventChat
     event.SenderID = "SERVER"
     event.Payload = map[string]string{
             "message":   fmt.Sprintf("%s guessed the word!", player.Username),
@@ -162,7 +162,7 @@ func (r *Room) broadcastCorrectGuess(playerID string) {
 
     b, _ := json.Marshal(event)
     r.Broadcast <- BroadcastData{
-        EventType: "CORRECT_GUESS",
+        EventType: string(EventCorrectGuess),
         SenderID:  "SERVER",
         Payload:   b,
     }

@@ -120,7 +120,7 @@ func (r *Room) Run() {
 		case data := <-r.Broadcast:
 			for _, player := range r.State.Players {
 
-				if player.ID == data.SenderID && data.EventType == "DRAW" {
+				if player.ID == data.SenderID && data.EventType == string(EventDraw) {
 					continue
 				}
 
